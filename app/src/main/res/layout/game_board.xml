@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.gridlayout.widget.GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/game_board"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:orientation="horizontal"
+    app:columnCount="4"
+    app:rowCount="4"
+    android:padding="25dp">
+
+    <ImageButton
+        android:id="@+id/row0_column0"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row0_column1"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row0_column2"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row0_column3"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row1_column0"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row1_column1"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row1_column2"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row1_column3"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row2_column0"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row2_column1"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row2_column2"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row2_column3"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row3_column0"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row3_column1"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row3_column2"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+    <ImageButton
+        android:id="@+id/row3_column3"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        style="@style/TokenStyle"/>
+
+</androidx.gridlayout.widget.GridLayout>

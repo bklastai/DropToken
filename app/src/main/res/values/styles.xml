@@ -1,0 +1,36 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="PrimaryTitle" parent="@style/TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="SecondaryTitle" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="GameStartButtonStyle" parent="@style/Widget.AppCompat.Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:background">@drawable/rounded_filled_accent_color_rect</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="TokenStyle" parent="@style/Widget.AppCompat.ImageButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:background">@drawable/token_empty</item>
+        <item name="android:contentDescription">This is a game token</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:onClick">onTokenClicked</item>
+    </style>
+
+</resources>

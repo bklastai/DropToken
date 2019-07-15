@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/activity_game_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:layout_alignParentTop="true"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_main_welcome_message"
+        style="@style/PrimaryTitle"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@+id/choose_first_player_prompt"/>
+
+    <TextView
+        android:id="@+id/choose_first_player_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_main_choose_who_starts"
+        style="@style/SecondaryTitle"
+        android:layout_marginBottom="60dp"
+        android:layout_above="@+id/activity_main_button_user_will_start"/>
+
+    <Button
+        android:id="@+id/activity_main_button_user_will_start"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="@string/activity_main_i_will_start"
+        style="@style/GameStartButtonStyle"
+        android:layout_centerInParent="true"/>
+
+    <Button
+        android:id="@+id/activity_main_button_computer_will_start"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="@string/activity_main_let_opponent_start"
+        style="@style/GameStartButtonStyle"
+        android:layout_below="@+id/activity_main_button_user_will_start"
+        android:layout_centerHorizontal="true"/>
+
+    <!--possibly ad "Or..." -> "Continue playing last game"-->
+
+</RelativeLayout>
