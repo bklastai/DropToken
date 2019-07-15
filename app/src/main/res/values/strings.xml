@@ -6,10 +6,12 @@
     <string name="activity_main_i_will_start">I will start</string>
     <string name="activity_main_let_opponent_start">Let the opponent be first</string>
 
+    <string name="game_prompt">Select one of the tokens…</string>
+
     <string name="end_of_game_dialog_you_won">You won!</string>
     <string name="end_of_game_dialog_you_lost">Ouch, you lost this one…</string>
     <string name="end_of_game_dialog_message">Select what you want to do next.</string>
-    <string name="try_again">Try again</string>
+    <string name="play_again">Play again</string>
     <string name="exit_app">Exit app</string>
     <string name="end_game">End game</string>
 
@@ -19,9 +21,9 @@
 
     <string name="draw_dialog_title">It\'s a draw!</string>
 
-    <!--for game extension-->
-    <!--<string name="invalid_move_dialog_message">Please select an unoccupied slot.</string>-->
-
     <string name="or">Or…</string>
     <string name="continue_previous_game">Continue previous game</string>
+
+    <!--for game extension-->
+    <!--<string name="invalid_move_dialog_message">Please select an unoccupied slot.</string>-->
 </resources>

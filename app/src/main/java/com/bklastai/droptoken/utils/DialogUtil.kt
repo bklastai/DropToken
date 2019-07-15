@@ -1,7 +1,6 @@
 package com.bklastai.droptoken.utils
 
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.bklastai.droptoken.GameActivity
 import com.bklastai.droptoken.PREF_EXIT_APP
 import com.bklastai.droptoken.R
@@ -14,7 +13,7 @@ class DialogUtil {
                 .setTitle(if (winner == TokenState.User) R.string.end_of_game_dialog_you_won else
                     R.string.end_of_game_dialog_you_lost)
                 .setMessage(R.string.end_of_game_dialog_message)
-                .setPositiveButton(R.string.try_again) { _, _ ->
+                .setPositiveButton(R.string.play_again) { _, _ ->
                     activity.resetGame()
                 }
                 .setNegativeButton(R.string.end_game) { _, _ ->
@@ -42,7 +41,7 @@ class DialogUtil {
             AlertDialog.Builder(activity)
                 .setTitle(R.string.draw_dialog_title)
                 .setMessage(R.string.end_of_game_dialog_message)
-                .setPositiveButton(R.string.try_again) { _, _ ->
+                .setPositiveButton(R.string.play_again) { _, _ ->
                     activity.resetGame()
                 }
                 .setNegativeButton(R.string.end_game) { _, _ ->

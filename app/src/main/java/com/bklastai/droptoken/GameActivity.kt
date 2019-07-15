@@ -2,6 +2,8 @@ package com.bklastai.droptoken
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request.Method.GET
 import com.android.volley.Response
@@ -9,6 +11,7 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.bklastai.droptoken.controllers.BoardViewController
 import com.bklastai.droptoken.model.GameEngine
 import com.bklastai.droptoken.utils.*
+import kotlinx.android.synthetic.main.activity_game.*
 import org.json.JSONArray
 
 const val gameUrl = "https://w0ayb2ph1k.execute-api.us-west-2.amazonaws.com/production?moves=%s"
@@ -38,6 +41,7 @@ class GameActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        updateProgressBar()
         repopulateViews()
     }
 
@@ -83,8 +87,6 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun maybeRecordMove(row: Int, column: Int) {
-        if (awaitingOpponentMove) return
-
         // in a game extension, we would replace isMoveValid(column) with isMoveValid(row, column)
         if (gameEngine.isMoveValid(column)) {
 
@@ -111,9 +113,12 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun getOpponentsMove() {
+        awaitingOpponentMove = true
+        updateProgressBar()
         val url = gameUrl.format(gameEngine.getMovesJsonArray().toString())
         val request = JsonArrayRequest(GET, url, null, Response.Listener<JSONArray> {
             awaitingOpponentMove = false
+            updateProgressBar()
             if (it.length() == 0 || it[0] !is Int) return@Listener
 
             val computerMoveColumn = it[it.length()-1] as Int
@@ -122,9 +127,14 @@ class GameActivity : AppCompatActivity() {
             recordMoveReturnTrueIfEndOfGame(computerMoveRow, computerMoveColumn, TokenState.Computer)
         }, Response.ErrorListener {
             it.printStackTrace()
+            // todo handle this
         })
-        awaitingOpponentMove = true
         VolleySingleton.getInstance(this).addToRequestQueue(request)
+    }
+
+    private fun updateProgressBar() {
+        prompt.visibility = if (awaitingOpponentMove) GONE else VISIBLE
+        progress.visibility = if (awaitingOpponentMove) VISIBLE else GONE
     }
 
     fun resetGame() {
@@ -134,10 +144,12 @@ class GameActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (isFinishing && gameEngine.getMovesJsonArray().length() > 0) {
+        if (gameEngine.getMovesJsonArray().length() > 0) {
             putStringPref(PREF_PREVIOUS_MOVES, gameEngine.getMovesJsonArray().toString())
             putBooleanPref(PREF_USER_STARTED, userStarts)
             resetGame()
+        } else {
+            removePref(PREF_PREVIOUS_MOVES)
         }
     }
 }
