@@ -1,5 +1,6 @@
 package com.bklastai.droptoken.model
 
+import android.util.Log
 import com.bklastai.droptoken.TokenState
 import org.json.JSONArray
 import java.lang.IllegalStateException
@@ -18,10 +19,11 @@ class GameEngine(private var gameState: Array<Array<TokenState>>) {
         return filledColumn(column, player) || filledRow(row, player) || filledDiagonal(row, column, player)
     }
 
-    private fun filledColumn(newMove: Int, player: TokenState): Boolean {
+    private fun filledColumn(newMoveColumn: Int, player: TokenState): Boolean {
         for (i in 0..3) {
-            if (peek(i, newMove) != player) return false
+            if (peek(i, newMoveColumn) != player) return false
         }
+        Log.i("TESTIN", "filledColumn")
         return true
     }
 
@@ -29,6 +31,7 @@ class GameEngine(private var gameState: Array<Array<TokenState>>) {
         for (i in 0..3) {
             if (peek(row, i) != player) return false
         }
+        Log.i("TESTIN", "filledRow, row = $row")
         return true
     }
 
@@ -43,6 +46,7 @@ class GameEngine(private var gameState: Array<Array<TokenState>>) {
             val nextRowUp = (row + i) % 4
             if (peek(nextRowUp, nextColumn) != player) return false
         }
+        Log.i("TESTIN", "filledDiagonalTopDown")
         return true
     }
 
@@ -55,6 +59,7 @@ class GameEngine(private var gameState: Array<Array<TokenState>>) {
             if (nextRowDown < 0) nextRowDown = 3
             if (peek(nextRowDown, nextColumn) != player) return false
         }
+        Log.i("TESTIN", "filledDiagonalBottomUp")
         return true
     }
 

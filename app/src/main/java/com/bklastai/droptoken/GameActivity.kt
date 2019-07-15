@@ -1,17 +1,14 @@
 package com.bklastai.droptoken
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request.Method.GET
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.bklastai.droptoken.controllers.BoardViewController
 import com.bklastai.droptoken.model.GameEngine
-import com.bklastai.droptoken.utils.VolleySingleton
+import com.bklastai.droptoken.utils.*
 import org.json.JSONArray
 
 const val gameUrl = "https://w0ayb2ph1k.execute-api.us-west-2.amazonaws.com/production?moves=%s"
@@ -24,6 +21,7 @@ enum class TokenState {
 class GameActivity : AppCompatActivity() {
     var awaitingOpponentMove = false
 
+    private var userStarts = false
     private val gameEngine = GameEngine(Array(4) { Array(4) { TokenState.Empty } })
     private lateinit var boardController: BoardViewController
 
@@ -35,9 +33,26 @@ class GameActivity : AppCompatActivity() {
 
         boardController = BoardViewController(findViewById(R.id.game_board))
 
-        val userStarts = intent?.extras?.getBoolean(USER_STARTS) ?: false
-        if (!userStarts) {
-            getOpponentsMove()
+        userStarts = intent?.extras?.getBoolean(EXTRA_USER_STARTS) ?: false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        repopulateViews()
+    }
+
+    private fun repopulateViews() {
+        val movesString = getStringPref(PREF_PREVIOUS_MOVES)
+        if (movesString == null) {
+            if (!userStarts) getOpponentsMove()
+        } else {
+            var player = if (userStarts) TokenState.User else TokenState.Computer
+            val moves = JSONArray(movesString)
+            for (i in 0 until moves.length()) {
+                val column = moves[i] as Int
+                recordMoveReturnTrueIfEndOfGame(gameEngine.getRowOfNewMove(column), column, player)
+                player = if (player == TokenState.User) TokenState.Computer else TokenState.User
+            }
         }
     }
 
@@ -78,7 +93,7 @@ class GameActivity : AppCompatActivity() {
 
             getOpponentsMove()
         } else {
-            showInvalidMoveDialog()
+            DialogUtil.showInvalidMoveDialog(this)
         }
     }
 
@@ -86,10 +101,10 @@ class GameActivity : AppCompatActivity() {
         gameEngine.record(row, column, player)
         boardController.record(row, column)
         if (gameEngine.isWinningMove(row, column, player)) {
-            showEndOfGameDialog(player)
+            DialogUtil.showEndOfGameDialog(player, this)
             return true
         } else if (gameEngine.noMovesLeft()) {
-            showDrawDialog()
+            DialogUtil.showDrawDialog(this)
             return true
         }
         return false
@@ -100,11 +115,9 @@ class GameActivity : AppCompatActivity() {
         val request = JsonArrayRequest(GET, url, null, Response.Listener<JSONArray> {
             awaitingOpponentMove = false
             if (it.length() == 0 || it[0] !is Int) return@Listener
-            Log.i("TESTIN", "url = $url, response = $it")
 
             val computerMoveColumn = it[it.length()-1] as Int
             val computerMoveRow = gameEngine.getRowOfNewMove(computerMoveColumn)
-            Log.i("TESTIN", "computerMoveRow = $computerMoveRow, computerMoveColumn = $computerMoveColumn")
 
             recordMoveReturnTrueIfEndOfGame(computerMoveRow, computerMoveColumn, TokenState.Computer)
         }, Response.ErrorListener {
@@ -114,54 +127,17 @@ class GameActivity : AppCompatActivity() {
         VolleySingleton.getInstance(this).addToRequestQueue(request)
     }
 
-    private fun showEndOfGameDialog(winner: TokenState) {
-        AlertDialog.Builder(this)
-            .setTitle(if (winner == TokenState.User) R.string.end_of_game_dialog_you_won else
-                R.string.end_of_game_dialog_you_lost)
-            .setMessage(R.string.end_of_game_dialog_message)
-            .setPositiveButton(R.string.try_again) { _, _ ->
-                gameEngine.reset()
-                boardController.reset()
-            }
-            .setNegativeButton(R.string.end_game) { _, _ ->
-                gameEngine.reset()
-                boardController.reset()
-                this.finish()
-            }
-            .setNeutralButton(R.string.exit_app) { _, _ ->
-                gameEngine.reset()
-                boardController.reset()
-                this.finish()
-            }
-            .show()
+    fun resetGame() {
+        gameEngine.reset()
+        boardController.reset()
     }
 
-    private fun showInvalidMoveDialog() {
-        AlertDialog.Builder(this)
-            .setTitle(R.string.invalid_move_dialog_title)
-            .setMessage(R.string.invalid_move_dialog_message)
-            .setPositiveButton(R.string.invalid_move_dialog_ok, null)
-            .show()
-    }
-
-    private fun showDrawDialog() {
-        AlertDialog.Builder(this)
-            .setTitle(R.string.end_of_game_dialog_you_lost)
-            .setMessage(R.string.end_of_game_dialog_message)
-            .setPositiveButton(R.string.try_again) { _, _ ->
-                gameEngine.reset()
-                boardController.reset()
-            }
-            .setNegativeButton(R.string.end_game) { _, _ ->
-                gameEngine.reset()
-                boardController.reset()
-                this.finish()
-            }
-            .setNeutralButton(R.string.exit_app) { _, _ ->
-                gameEngine.reset()
-                boardController.reset()
-                this.finish()
-            }
-            .show()
+    override fun onPause() {
+        super.onPause()
+        if (isFinishing && gameEngine.getMovesJsonArray().length() > 0) {
+            putStringPref(PREF_PREVIOUS_MOVES, gameEngine.getMovesJsonArray().toString())
+            putBooleanPref(PREF_USER_STARTED, userStarts)
+            resetGame()
+        }
     }
 }

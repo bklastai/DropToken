@@ -1,54 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activity_game_toolbar"
+        android:id="@+id/activity_main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        android:layout_alignParentTop="true"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/activity_main_welcome_message"
-        style="@style/PrimaryTitle"
-        android:layout_marginBottom="20dp"
-        android:layout_above="@+id/choose_first_player_prompt"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/choose_first_player_prompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/activity_main_choose_who_starts"
-        style="@style/SecondaryTitle"
-        android:layout_marginBottom="60dp"
-        android:layout_above="@+id/activity_main_button_user_will_start"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/activity_main_button_user_will_start"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:text="@string/activity_main_i_will_start"
-        style="@style/GameStartButtonStyle"
-        android:layout_centerInParent="true"/>
+            <TextView
+                android:id="@+id/welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_main_welcome_message"
+                style="@style/PrimaryTitle"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"/>
 
-    <Button
-        android:id="@+id/activity_main_button_computer_will_start"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:text="@string/activity_main_let_opponent_start"
-        style="@style/GameStartButtonStyle"
-        android:layout_below="@+id/activity_main_button_user_will_start"
-        android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/choose_first_player_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_main_choose_who_starts"
+                style="@style/SecondaryTitle"
+                android:layout_marginBottom="40dp"/>
 
-    <!--possibly ad "Or..." -> "Continue playing last game"-->
+            <Button
+                android:id="@+id/button_user_will_start"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:text="@string/activity_main_i_will_start"
+                style="@style/GameStartButtonStyle"/>
 
-</RelativeLayout>
+            <Button
+                android:id="@+id/button_computer_will_start"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:text="@string/activity_main_let_opponent_start"
+                style="@style/GameStartButtonStyle"/>
+
+            <TextView
+                android:id="@+id/choose_old_game_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/or"
+                style="@style/SecondaryTitle"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="invisible"/>
+
+            <Button
+                android:id="@+id/activity_main_button_play_previous_game"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="50dp"
+                android:text="@string/continue_previous_game"
+                style="@style/GameStartButtonStyle"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
